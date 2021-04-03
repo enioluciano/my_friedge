@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "246657764017",
+    "project_id": "minhageladeira-949b1",
+    "storage_bucket": "minhageladeira-949b1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246657764017:android:7a40232018c2dee5943090",
+        "android_client_info": {
+          "package_name": "com.example.minhageladeira"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "246657764017-kp5f9mj6sc6cg2usdvuqimbo4kvd0n29.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWKUoZ3X8hmtkpFkyLf3aWSbuAzmnIS8A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "246657764017-kp5f9mj6sc6cg2usdvuqimbo4kvd0n29.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
