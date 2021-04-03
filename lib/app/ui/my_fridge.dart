@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:minhageladeira/app/controller/my_fridge_controller.dart';
 import 'package:minhageladeira/app/models/itens.dart';
-import 'package:minhageladeira/app/repository/repository.dart';
+
 import 'package:minhageladeira/app/ui/widgets/drawer_custom.dart';
 import 'package:minhageladeira/util/preferences.dart';
 
@@ -11,7 +11,6 @@ class MyFridge extends StatelessWidget {
   final MyFridgeController controller = MyFridgeController();
   final GlobalKey<FabCircularMenuState> fabKey = GlobalKey();
   final GlobalKey<FormState> formKey = GlobalKey();
-  final List list = [];
 
   @override
   Widget build(BuildContext context) {

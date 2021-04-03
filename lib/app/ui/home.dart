@@ -6,7 +6,7 @@ import 'package:minhageladeira/app/ui/records.dart';
 import 'package:minhageladeira/app/ui/top_five.dart';
 
 class Home extends StatelessWidget {
-  HomeController controller = Get.put(HomeController());
+  final HomeController controller = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
     return PageView(
@@ -14,14 +14,5 @@ class Home extends StatelessWidget {
       controller: controller.pageController,
       children: [MyFridge(), Record(), TopFive()],
     );
-
-    // Scaffold(
-    //   appBar: AppBar(
-    //     title: Text("Minha geladeira"),
-    //     centerTitle: true,
-    //   ),
-    //   drawer: DrawerCusom(),
-    //   body: Text("Oi"),
-    // );
   }
 }
