@@ -47,55 +47,13 @@ class MyFridgeController extends GetxController {
     });
   }
 
-  // createItem() async {
-  //   int status = await Repository.createDataBd(getItem);
-  //   if (status == 200) {
-  //     Get.back();
-  //     Get.defaultDialog(
-  //         title: "",
-  //         content: Center(
-  //           child: Column(
-  //             children: [
-  //               Icon(
-  //                 Icons.check_circle,
-  //                 size: 45,
-  //                 color: Colors.green[600],
-  //               ),
-  //               SizedBox(
-  //                 height: 20,
-  //               ),
-  //               Text(
-  //                 "Item salvo com sucesso!",
-  //                 textAlign: TextAlign.center,
-  //               ),
-  //             ],
-  //           ),
-  //         ));
-  //     Future.delayed(Duration(seconds: 2), () {
-  //       Get.back();
-  //       Get.back();
-  //     });
-  //   } else {
-  //     Get.defaultDialog(
-  //         title: "Alerta!",
-  //         titleStyle: TextStyle(fontWeight: FontWeight.bold),
-  //         barrierDismissible: true,
-  //         content: Row(
-  //           mainAxisAlignment: MainAxisAlignment.center,
-  //           children: [
-  //             Icon(
-  //               Icons.error,
-  //               color: Colors.red,
-  //             ),
-  //             Text(" Erro ao salvar os dados.")
-  //           ],
-  //         ));
-  //   }
-  // }
-
-  getItensBd() async {
+  getItensBd() {
     FirebaseFirestore db = FirebaseFirestore.instance;
-    db.collection("itens").snapshots().listen((QuerySnapshot querySnapshot) {
+    db
+        .collection("itens")
+        .orderBy("itemAvailable", descending: true)
+        .snapshots()
+        .listen((QuerySnapshot querySnapshot) {
       listItens.value = querySnapshot.docs
           .map((QueryDocumentSnapshot queryDocumentSnapshot) =>
               Itens.fromJson(queryDocumentSnapshot.data()))

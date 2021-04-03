@@ -146,18 +146,6 @@ class Repository {
     return list;
   }
 
-  getItensBd() async {
-    FirebaseFirestore db = FirebaseFirestore.instance;
-    db.collection("itens").snapshots().listen((QuerySnapshot querySnapshot) {
-      List<Itens> listItem = querySnapshot.docs
-          .map((QueryDocumentSnapshot queryDocumentSnapshot) =>
-              Itens.fromJson(queryDocumentSnapshot.data()))
-          .toList();
-
-      return listItem;
-    });
-  }
-
   //
   static Future<int> updateDataBd(Itens item) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
