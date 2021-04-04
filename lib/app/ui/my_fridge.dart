@@ -81,40 +81,12 @@ class MyFridge extends StatelessWidget {
                     })),
           ),
         ),
-        floatingActionButton: FabCircularMenu(
-            key: fabKey,
-            ringDiameter: 350,
-            fabOpenIcon: Icon(
-              Icons.list,
-              color: corBranca,
-            ),
-            fabCloseIcon: Icon(
-              Icons.close,
-              color: corBranca,
-            ),
-            children: <Widget>[
-              IconButton(
-                  icon: Icon(
-                    Icons.add_circle_outline,
-                    size: 30,
-                    color: corBranca,
-                  ),
-                  onPressed: () {
-                    fabKey.currentState.isOpen
-                        ? fabKey.currentState.close()
-                        : fabKey.currentState.open();
-
-                    showDialogAddItem();
-                  }),
-              IconButton(
-                  icon: Icon(
-                    Icons.favorite,
-                    color: corBranca,
-                  ),
-                  onPressed: () {
-                    print('Favorite');
-                  })
-            ]));
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            showDialogAddItem();
+          },
+          child: Icon(Icons.add),
+        ));
   }
 
   showDialogAddItem() {
@@ -170,19 +142,14 @@ class MyFridge extends StatelessWidget {
         }),
         barrierDismissible: false,
         textConfirm: "Adicionar",
-        buttonColor: Colors.green,
-        confirmTextColor: corBranca,
+        buttonColor: Colors.white,
+        confirmTextColor: Colors.green,
         textCancel: "Cancelar",
         cancelTextColor: Colors.red,
         onConfirm: () {
           controller.getItem.count = controller.getItem.itemAvailable;
 
           controller.loadingData();
-
-          // controller.setItem(Itens(
-          //     count: 0, consumer: false, itemConsumer: 0, itemAvailable: 0));
-
-          // controller.verifyInBdIfFruitExist();
         },
         onCancel: () => Get.back());
   }
@@ -212,10 +179,13 @@ class MyFridge extends StatelessWidget {
                 children: [
                   TextButton(
                     onPressed: () {
-                      if (item.itemConsumer <= 0) {
+                      if (controller.getContador <= 0) {
                         return null;
                       } else {
-                        setState(() => item.itemConsumer--);
+                        // setState(() => item.itemConsumer--);
+                        setState(() => controller.contador.value--);
+                        print(
+                            "contador retirar = ${controller.contador.value}");
 
                         print(item.itemConsumer);
                         // item.count
@@ -226,17 +196,16 @@ class MyFridge extends StatelessWidget {
                       color: Colors.red,
                     ),
                   ),
-                  Text("${item.itemConsumer}"),
+                  Text("${controller.getContador}"),
                   TextButton(
                     onPressed: () {
-                      if (item.itemConsumer >= item.itemAvailable) {
+                      if (controller.getContador >= item.itemAvailable) {
                         return null;
                       } else {
-                        setState(() => item.itemConsumer++);
-
-                        // item.count
+                        // setState(() => item.itemConsumer++);
+                        setState(() => controller.contador.value++);
+                        print("contador add = ${controller.contador.value}");
                       }
-                      print(item.itemConsumer);
                     },
                     child: Icon(
                       Icons.add_circle_outline_outlined,
@@ -249,15 +218,29 @@ class MyFridge extends StatelessWidget {
           );
         }),
         textConfirm: "Consumir",
-        buttonColor: Colors.green,
-        confirmTextColor: corBranca,
+        buttonColor: Colors.white,
+        confirmTextColor: Colors.green,
         textCancel: "Cancelar",
         cancelTextColor: Colors.red,
         onConfirm: () {
-          item.itemAvailable = item.itemAvailable - item.itemConsumer;
-          item.itemConsumerHistoric =
-              item.itemConsumerHistoric + item.itemConsumer;
-          controller.updateDataFridge(item);
+          if (controller.getContador > 0) {
+            item.itemAvailable = item.itemAvailable - controller.getContador;
+            item.itemConsumerHistoric =
+                item.itemConsumerHistoric + controller.getContador;
+
+            controller.updateDataFridge(item);
+          } else {
+            Get.rawSnackbar(
+                backgroundColor: Colors.red,
+                messageText: Text(
+                  "Digite um valor maior que zero!",
+                  style: TextStyle(color: corBranca),
+                ),
+                icon: Icon(
+                  Icons.warning_amber_outlined,
+                  color: Colors.white,
+                ));
+          }
         },
         onCancel: () => Get.back());
   }

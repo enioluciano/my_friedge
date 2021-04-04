@@ -11,6 +11,9 @@ class MyFridgeController extends GetxController {
   RxList listItens = [].obs;
   List get getListItens => listItens;
   setListItens(item) => listItens.add(item);
+  RxInt contador = 0.obs;
+  int get getContador => contador.value;
+  setContador(newValue) => contador.value = newValue;
 
   Rx<Itens> item = Itens(
           count: 0,
@@ -61,13 +64,14 @@ class MyFridgeController extends GetxController {
     });
   }
 
-  updateDataFridge(Itens item) async {
-    item.data = DateTime.now().toString();
-
-    item.milliSeconds = DateTime.now().millisecondsSinceEpoch;
-    int status = await Repository.updateDataBd(item);
+  updateDataFridge(Itens itemCurrent) async {
+    itemCurrent.data = DateTime.now().toString();
+    itemCurrent.itemConsumer = getContador;
+    print("Entrou e atualizou: ${itemCurrent.itemConsumer}");
+    itemCurrent.milliSeconds = DateTime.now().millisecondsSinceEpoch;
+    int status = await Repository.updateDataBd(itemCurrent);
+    contador.value = 0;
     if (status == 200) {
-      item.itemConsumer = 0;
       Get.back();
       Get.defaultDialog(
           title: "",
@@ -120,7 +124,7 @@ class MyFridgeController extends GetxController {
     if (status == 200) {
       item.value.count = 0;
       item.value.itemAvailable = 0;
-      // Get.create<MyFridgeController>(() => MyFridgeController());
+
       Get.back();
       Get.defaultDialog(
           title: "",
