@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:minhageladeira/app/models/itens.dart';
 
 class Repository {
-  static Future<int> createDataBd(Itens item) async {
+  static Future<int> createDataBd(Item item) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
     CollectionReference itemId = db.collection("itens");
     item.id = itemId.doc().id;
@@ -23,7 +23,7 @@ class Repository {
     }
   }
 
-  static Future<int> createHistoryItemRegisterDb(Itens item) async {
+  static Future<int> createHistoryItemRegisterDb(Item item) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
     CollectionReference i = db.collection("historico");
     item.id = i.doc().id;
@@ -42,7 +42,7 @@ class Repository {
     }
   }
 
-  static Future<int> createHistoryItemConsumerDb(Itens item) async {
+  static Future<int> createHistoryItemConsumerDb(Item item) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
     CollectionReference i = db.collection("historico");
     item.id = i.doc().id;
@@ -62,7 +62,7 @@ class Repository {
     }
   }
 
-  static Future<List<Itens>> getListItemFilterBd() async {
+  static Future<List<Item>> getListItemFilterBd() async {
     FirebaseFirestore db = FirebaseFirestore.instance;
 
     QuerySnapshot querySnapshot = await db
@@ -70,15 +70,15 @@ class Repository {
         .where("consumer", isEqualTo: true)
         .orderBy("milliSeconds", descending: true)
         .get();
-    List<Itens> listItemConsumer = [];
+    List<Item> listItemConsumer = [];
     for (var item in querySnapshot.docs) {
-      Itens i = Itens.fromJson(item.data());
+      Item i = Item.fromJson(item.data());
       listItemConsumer.add(i);
     }
     return listItemConsumer;
   }
 
-  static Future<List<Itens>> getListItemAddFilterBd() async {
+  static Future<List<Item>> getListItemAddFilterBd() async {
     FirebaseFirestore db = FirebaseFirestore.instance;
 
     QuerySnapshot querySnapshot = await db
@@ -86,24 +86,24 @@ class Repository {
         .where("consumer", isEqualTo: false)
         .orderBy("milliSeconds", descending: true)
         .get();
-    List<Itens> listItemConsumer = [];
+    List<Item> listItemConsumer = [];
     for (var item in querySnapshot.docs) {
-      Itens i = Itens.fromJson(item.data());
+      Item i = Item.fromJson(item.data());
       listItemConsumer.add(i);
     }
     return listItemConsumer;
   }
 
-  static Future<List<Itens>> getListItemMoreRecent() async {
+  static Future<List<Item>> getListItemMoreRecent() async {
     FirebaseFirestore db = FirebaseFirestore.instance;
 
     QuerySnapshot querySnapshot = await db
         .collection("historico")
         .orderBy("milliSeconds", descending: true)
         .get();
-    List<Itens> listItemMoreRecent = [];
+    List<Item> listItemMoreRecent = [];
     for (var item in querySnapshot.docs) {
-      Itens i = Itens.fromJson(item.data());
+      Item i = Item.fromJson(item.data());
 
       listItemMoreRecent.add(i);
     }
@@ -111,16 +111,16 @@ class Repository {
     return listItemMoreRecent;
   }
 
-  static Future<List<Itens>> getListItemLessRecent() async {
+  static Future<List<Item>> getListItemLessRecent() async {
     FirebaseFirestore db = FirebaseFirestore.instance;
 
     QuerySnapshot querySnapshot = await db
         .collection("historico")
         .orderBy("milliSeconds", descending: false)
         .get();
-    List<Itens> listItemLessRecent = [];
+    List<Item> listItemLessRecent = [];
     for (var item in querySnapshot.docs) {
-      Itens i = Itens.fromJson(item.data());
+      Item i = Item.fromJson(item.data());
 
       listItemLessRecent.add(i);
     }
@@ -128,16 +128,16 @@ class Repository {
     return listItemLessRecent;
   }
 
-  static Future<List<Itens>> getListTopFiveBd() async {
+  static Future<List<Item>> getListTopFiveBd() async {
     FirebaseFirestore db = FirebaseFirestore.instance;
 
     QuerySnapshot querySnapshot = await db
         .collection("itens")
         .orderBy("itemConsumerHistoric", descending: true)
         .get();
-    List<Itens> list = [];
+    List<Item> list = [];
     for (var item in querySnapshot.docs) {
-      Itens i = Itens.fromJson(item.data());
+      Item i = Item.fromJson(item.data());
       if (i.itemConsumerHistoric > 0) {
         list.add(i);
       }
@@ -147,7 +147,7 @@ class Repository {
   }
 
   //
-  static Future<int> updateDataBd(Itens item) async {
+  static Future<int> updateDataBd(Item item) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
     int statusCode;
 
@@ -167,7 +167,7 @@ class Repository {
     }
   }
 
-  static Future<int> updateDataFruitIfExistBd(Itens item) async {
+  static Future<int> updateDataFruitIfExistBd(Item item) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
     int statusCode;
 
@@ -180,7 +180,6 @@ class Repository {
         await db.collection("historico").doc(item.id).set(item.toJson());
         return 200;
       });
-      // createHistoryItemConsumerDb(item);
 
       return statusCode;
     } catch (e) {
@@ -189,16 +188,16 @@ class Repository {
     }
   }
 
-  static Future<int> verifyInBdIfFruitExist(Itens currentitem) async {
+  static Future<int> verifyInBdIfFruitExist(Item currentitem) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
     QuerySnapshot querySnapshot = await db.collection("itens").get();
     int statusCode;
     bool exist = false;
 
     for (var p in querySnapshot.docs) {
-      Itens i = Itens.fromJson(p.data());
+      Item i = Item.fromJson(p.data());
       if (i.search == currentitem.search) {
-        Itens itemExist = Itens.fromJson(p.data());
+        Item itemExist = Item.fromJson(p.data());
         itemExist.count = currentitem.count;
         itemExist.ifExistAdd = true;
         itemExist.data = currentitem.data;
