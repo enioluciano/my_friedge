@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Itens {
+class Item {
   String id;
   String name;
   int count;
@@ -13,7 +13,7 @@ class Itens {
   int milliSeconds;
   int itemConsumerHistoric;
 
-  Itens(
+  Item(
       {this.id,
       this.name,
       this.count,
@@ -26,13 +26,13 @@ class Itens {
       this.ifExistAdd,
       this.search});
 
-  Itens.gerarIdPublicador() {
+  Item.gerarIdPublicador() {
     FirebaseFirestore db = FirebaseFirestore.instance;
     CollectionReference item = db.collection("itens");
     this.id = item.doc().id;
   }
 
-  Itens.fromJson(Map<String, dynamic> json) {
+  Item.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     milliSeconds = json['milliSeconds'];

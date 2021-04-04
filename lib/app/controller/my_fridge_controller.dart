@@ -15,7 +15,7 @@ class MyFridgeController extends GetxController {
   int get getContador => contador.value;
   setContador(newValue) => contador.value = newValue;
 
-  Rx<Itens> item = Itens(
+  Rx<Item> item = Item(
           count: 0,
           itemAvailable: 0,
           itemConsumer: 0,
@@ -23,7 +23,7 @@ class MyFridgeController extends GetxController {
           consumer: false,
           ifExistAdd: false)
       .obs;
-  Itens get getItem => item.value;
+  Item get getItem => item.value;
   setItem(newItem) => item.value = newItem;
 
   loadingData() {
@@ -59,12 +59,12 @@ class MyFridgeController extends GetxController {
         .listen((QuerySnapshot querySnapshot) {
       listItens.value = querySnapshot.docs
           .map((QueryDocumentSnapshot queryDocumentSnapshot) =>
-              Itens.fromJson(queryDocumentSnapshot.data()))
+              Item.fromJson(queryDocumentSnapshot.data()))
           .toList();
     });
   }
 
-  updateDataFridge(Itens itemCurrent) async {
+  updateDataFridge(Item itemCurrent) async {
     itemCurrent.data = DateTime.now().toString();
     itemCurrent.itemConsumer = getContador;
     print("Entrou e atualizou: ${itemCurrent.itemConsumer}");

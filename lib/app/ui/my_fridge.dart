@@ -38,7 +38,7 @@ class MyFridge extends StatelessWidget {
                 : ListView.builder(
                     itemCount: controller.getListItens.length,
                     itemBuilder: (contex, index) {
-                      Itens item = controller.getListItens[index];
+                      Item item = controller.getListItens[index];
                       return Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
@@ -154,7 +154,7 @@ class MyFridge extends StatelessWidget {
         onCancel: () => Get.back());
   }
 
-  showDialogConsumeItem(Itens item) {
+  showDialogConsumeItem(Item item) {
     return Get.defaultDialog(
         title: "Item para consumir",
         content: StatefulBuilder(

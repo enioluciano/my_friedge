@@ -34,7 +34,7 @@ class TopFive extends StatelessWidget {
             : ListView.builder(
                 itemCount: controller.getListItensAll.length,
                 itemBuilder: (context, index) {
-                  Itens item = controller.getListItensAll[index];
+                  Item item = controller.getListItensAll[index];
                   return Card(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
